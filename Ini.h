@@ -2,7 +2,8 @@
 #define INIEDITOR_INIEDITOR_H
 
 
-class IniEditor {
+class Ini {
+
 
 };
 
