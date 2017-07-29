@@ -6,8 +6,8 @@ Ini::Ini(string fileName) : fileName(fileName) {
 }
 
 bool Ini::newSection(string sectionName) {
-    map <string, string> defaultSectionKeys = { {nullptr, nullptr} };
-    content.emplace(sectionName, defaultSectionKeys );
+    map <string, string> emptySectionKeys;
+    content.emplace(sectionName, emptySectionKeys );
 }
 
 bool Ini::newKey(string name, string value, string section) {

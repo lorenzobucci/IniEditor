@@ -17,7 +17,7 @@ public:
 
 private:
     string fileName;
-    map <string, map <string,string> > content = { { nullptr, { { nullptr, nullptr } } } };
+    map <string, map <string,string> > content;
 
 
 };

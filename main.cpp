@@ -3,7 +3,10 @@
 
 int main() {
 
-    Ini prova();
-
+    Ini prova;
+    prova.newSection("Settings");
+    prova.newKey("audio","off","Settings");
+    prova.newKey("video","on","Settings");
+    prova.newKey("audio2","on","Setting");
 
 }
