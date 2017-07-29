@@ -7,10 +7,10 @@
 
 using namespace std;
 
-class Ini {
+class IniFile {
 
 public:
-    explicit Ini(string fileName = "default");
+    explicit IniFile(string fileName = "default");
     bool newSection (string sectionName);
     bool newKey (string name, string value, string section = nullptr);
 

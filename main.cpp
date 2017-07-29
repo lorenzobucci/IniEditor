@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Ini.h"
+#include "IniFile.h"
 
 int main() {
 
-    Ini prova;
+    IniFile prova;
     prova.newSection("Settings");
     prova.newKey("audio","off","Settings");
     prova.newKey("video","on","Settings");
