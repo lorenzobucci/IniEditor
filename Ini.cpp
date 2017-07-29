@@ -4,3 +4,17 @@
 Ini::Ini(string fileName) : fileName(fileName) {
     ifstream myFile (fileName+".ini", ios_base::out);
 }
+
+void Ini::newSection(string sectionName) {
+    map <string, string> sectionKeys;
+    content.emplace(sectionName, sectionKeys );
+}
+
+bool Ini::newKey(string name, string value, string section) {
+    auto itr = content.find(section);
+    if( itr != content.end() ) {
+        itr->second.emplace(name, value);
+        return true;
+    }
+    return false;
+}

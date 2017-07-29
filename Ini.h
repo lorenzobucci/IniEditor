@@ -11,10 +11,12 @@ class Ini {
 
 public:
     explicit Ini(string fileName = "default");
+    void newSection (string sectionName);
+    bool newKey (string name, string value, string section = nullptr);
 
 private:
     string fileName;
-    multimap <string, map> content;
+    map <string, map <string,string> > content = { { nullptr, { { nullptr, nullptr } } } };
 
 
 };
