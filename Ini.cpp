@@ -5,9 +5,9 @@ Ini::Ini(string fileName) : fileName(fileName) {
     ifstream myFile (fileName+".ini", ios_base::out);
 }
 
-void Ini::newSection(string sectionName) {
-    map <string, string> sectionKeys;
-    content.emplace(sectionName, sectionKeys );
+bool Ini::newSection(string sectionName) {
+    map <string, string> defaultSectionKeys = { {nullptr, nullptr} };
+    content.emplace(sectionName, defaultSectionKeys );
 }
 
 bool Ini::newKey(string name, string value, string section) {

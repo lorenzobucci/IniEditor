@@ -11,8 +11,9 @@ class Ini {
 
 public:
     explicit Ini(string fileName = "default");
-    void newSection (string sectionName);
+    bool newSection (string sectionName);
     bool newKey (string name, string value, string section = nullptr);
+
 
 private:
     string fileName;
