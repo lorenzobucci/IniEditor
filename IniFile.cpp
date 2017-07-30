@@ -27,12 +27,26 @@ bool IniFile::newKey(const string& name, const string& value, const string& sect
 }
 
 bool IniFile::renameSection(const string& oldName, const string& newName) {
-    //TODO
+    auto itr = content.find(oldName);
+    if (itr != content.end()) {
+        if (newSection(newName)) {
+            for (auto itr2 = itr->second.begin(); itr2 != itr->second.end(); itr2++)
+                newKey(itr2->first, itr2->second, newName);
+            content.erase(itr);
+            return true;
+        }
+    }
     return false;
 }
 
 bool IniFile::renameKey(const string& oldName, const string& newName, const string& section) {
-    //TODO
+    auto itr = content.find(section);
+    if (itr != content.end()) {
+        if (newKey(newName,itr->second[oldName],section)) {
+            itr->second.erase(oldName);
+            return true;
+        }
+    }
     return false;
 }
 
@@ -48,14 +62,7 @@ bool IniFile::editKeyValue(const string& name, const string& newValue, const str
 }
 
 bool IniFile::deleteSection(const string& sectionName) {
-    auto itr = content.find(sectionName);
-    if (itr != content.end()) {
-        for (auto itr2 = itr->second.begin(); itr2 != itr->second.end(); itr2++)
-            newKey(itr2->first, itr2->second, "");
-        content.erase(itr);
-        return true;
-    }
-    return false;
+    return renameSection(sectionName,"");
 }
 
 bool IniFile::eraseSection(const string& sectionName) {
