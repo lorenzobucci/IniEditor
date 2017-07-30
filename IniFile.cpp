@@ -37,9 +37,10 @@ bool IniFile::renameKey(const string& oldName, const string& newName, const stri
 bool IniFile::editKeyValue(const string& name, const string& newValue, const string& section) {
     auto itr = content.find(section);
     if (itr != content.end()) {
-        itr->second[name] = newValue ;
-        // FIXME the key must exist!!
-        return true;
+        if(itr->second.find(name) != itr->second.end()) {
+            itr->second[name] = newValue;
+            return true;
+        }
     }
     return false;
 }
@@ -47,7 +48,8 @@ bool IniFile::editKeyValue(const string& name, const string& newValue, const str
 bool IniFile::deleteSection(const string& sectionName) {
     auto itr = content.find(sectionName);
     if (itr != content.end()) {
-        //FIXME move keys to null section
+        for (auto itr2 = itr->second.begin(); itr2 != itr->second.end(); itr2++)
+            newKey(itr2->first, itr2->second, "");
         content.erase(itr);
         return true;
     }
