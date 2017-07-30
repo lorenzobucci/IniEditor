@@ -11,14 +11,14 @@ class IniFile {
 
 public:
     explicit IniFile(string fileName = "default");
-    bool newSection (string sectionName);
-    bool newKey (string name, string value, string section = nullptr);
-    bool renameSection (string oldName, string newName);
-    bool renameKey (string oldName, string newName, string section = nullptr);
-    bool editKeyValue (string name, string& newValue, string section = nullptr);
-    bool deleteSection (string sectionName);
-    bool eraseSection (string sectionName);
-    bool eraseKey (string name, string section = nullptr);
+    bool newSection (const string& sectionName);
+    bool newKey (const string& name, const string& value, const string& section = nullptr);
+    bool renameSection (const string& oldName, const string& newName);
+    bool renameKey (const string& oldName, const string& newName, const string& section = nullptr);
+    bool editKeyValue (const string& name, const string& newValue, const string& section = nullptr);
+    bool deleteSection (const string& sectionName);
+    bool eraseSection (const string& sectionName);
+    bool eraseKey (const string& name, const string& section = nullptr);
 
 
 private:

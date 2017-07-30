@@ -6,7 +6,7 @@ IniFile::IniFile(string fileName) : fileName(fileName) {
     newSection("");
 }
 
-bool IniFile::newSection(string sectionName) {
+bool IniFile::newSection(const string& sectionName) {
     if (content.find(sectionName) != content.end()) {
         map<string, string> emptySectionKeys;
         content[sectionName] = emptySectionKeys;
@@ -15,7 +15,7 @@ bool IniFile::newSection(string sectionName) {
     return false;
 }
 
-bool IniFile::newKey(string name, string value, string section) {
+bool IniFile::newKey(const string& name, const string& value, const string& section) {
     auto itr = content.find(section);
     if (itr != content.end()) {
         itr->second[name] = value;
@@ -24,17 +24,17 @@ bool IniFile::newKey(string name, string value, string section) {
     return false;
 }
 
-bool IniFile::renameSection(string oldName, string newName) {
+bool IniFile::renameSection(const string& oldName, const string& newName) {
     //TODO
     return false;
 }
 
-bool IniFile::renameKey(string oldName, string newName, string section) {
+bool IniFile::renameKey(const string& oldName, const string& newName, const string& section) {
     //TODO
     return false;
 }
 
-bool IniFile::editKeyValue(const string name, string& newValue, const string section) {
+bool IniFile::editKeyValue(const string& name, const string& newValue, const string& section) {
     auto itr = content.find(section);
     if (itr != content.end()) {
         itr->second[name] = newValue ;
@@ -44,7 +44,7 @@ bool IniFile::editKeyValue(const string name, string& newValue, const string sec
     return false;
 }
 
-bool IniFile::deleteSection(string sectionName) {
+bool IniFile::deleteSection(const string& sectionName) {
     auto itr = content.find(sectionName);
     if (itr != content.end()) {
         //FIXME move keys to null section
@@ -54,7 +54,7 @@ bool IniFile::deleteSection(string sectionName) {
     return false;
 }
 
-bool IniFile::eraseSection(string sectionName) {
+bool IniFile::eraseSection(const string& sectionName) {
     auto itr = content.find(sectionName);
     if (itr != content.end()) {
         content.erase(itr);
@@ -63,7 +63,7 @@ bool IniFile::eraseSection(string sectionName) {
     return false;
 }
 
-bool IniFile::eraseKey(string name, string section) {
+bool IniFile::eraseKey(const string& name, const string& section) {
     auto itr = content.find(section);
     if (itr != content.end()) {
         auto itr2 = itr->second.find(name);
