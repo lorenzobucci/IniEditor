@@ -13,9 +13,11 @@ public:
     explicit IniFile(string fileName = "default");
     bool newSection (const string& sectionName);
     bool newKey (const string& name, const string& value, const string& section = nullptr);
+
     bool renameSection (const string& oldName, const string& newName);
     bool renameKey (const string& oldName, const string& newName, const string& section = nullptr);
     bool editKeyValue (const string& name, const string& newValue, const string& section = nullptr);
+
     bool deleteSection (const string& sectionName);
     bool eraseSection (const string& sectionName);
     bool eraseKey (const string& name, const string& section = nullptr);

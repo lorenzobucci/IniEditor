@@ -7,7 +7,7 @@ IniFile::IniFile(string fileName) : fileName(fileName) {
 }
 
 bool IniFile::newSection(const string& sectionName) {
-    if (content.find(sectionName) != content.end()) {
+    if (content.find(sectionName) == content.end()) {
         map<string, string> emptySectionKeys;
         content[sectionName] = emptySectionKeys;
         return true;
@@ -18,8 +18,10 @@ bool IniFile::newSection(const string& sectionName) {
 bool IniFile::newKey(const string& name, const string& value, const string& section) {
     auto itr = content.find(section);
     if (itr != content.end()) {
-        itr->second[name] = value;
-        return true;
+        if (itr->second.find(name) == itr->second.end()) {
+            itr->second[name] = value;
+            return true;
+        }
     }
     return false;
 }
