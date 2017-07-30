@@ -11,6 +11,7 @@ class IniFile {
 
 public:
     explicit IniFile(string fileName = "default");
+
     bool newSection (const string& sectionName);
     bool newKey (const string& name, const string& value, const string& section = nullptr);
 
@@ -26,6 +27,9 @@ public:
 private:
     string fileName;
     map <string, map <string,string> > content;
+
+    bool findSection (const string& sectionName);
+    bool findKey (const string& name, const string& section = nullptr);
 
 
 };
