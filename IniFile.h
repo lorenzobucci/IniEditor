@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <map>
+#include <vector>
 
 using namespace std;
 
@@ -23,13 +24,17 @@ public:
     bool eraseSection (const string& sectionName);
     bool eraseKey (const string& name, const string& section = nullptr);
 
+    string getKeyValue (const string& name, const string& section = nullptr) const;
+    vector<string>& getKeyList (const string& sectionName = nullptr) const;
+    vector<string>& getSectionList () const;
+
 
 private:
     string fileName;
     map <string, map <string,string> > content;
 
-    bool findSection (const string& sectionName);
-    bool findKey (const string& name, const string& section = nullptr);
+    bool findSection (const string& sectionName) const;
+    bool findKey (const string& name, const string& section = nullptr) const;
 
 
 };

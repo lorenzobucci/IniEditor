@@ -16,8 +16,8 @@ bool IniFile::newSection(const string& sectionName) {
 }
 
 bool IniFile::newKey(const string& name, const string& value, const string& section) {
-    if (findKey(name, section)) {
-        (content[section])[name] = value;
+    if (!findKey(name, section)) {
+        content.at(section)[name] = value;
         return true;
     }
     return false;
@@ -26,7 +26,7 @@ bool IniFile::newKey(const string& name, const string& value, const string& sect
 bool IniFile::renameSection(const string& oldName, const string& newName) {
     if (findSection(oldName)) {
         if (newSection(newName)) {
-            for (auto itr2 = content[oldName].begin(); itr2 != content[oldName].end(); itr2++)
+            for (auto itr2 = content.at(oldName).begin(); itr2 != content.at(oldName).end(); itr2++)
                 newKey(itr2->first, itr2->second, newName);
             content.erase(oldName);
             return true;
@@ -37,8 +37,8 @@ bool IniFile::renameSection(const string& oldName, const string& newName) {
 
 bool IniFile::renameKey(const string& oldName, const string& newName, const string& section) {
     if (findKey(oldName)) {
-        if (newKey(newName,(content[section])[oldName],section)) {
-            content[section].erase(oldName);
+        if (newKey(newName,content.at(section).at(oldName),section)) {
+            content.at(section).erase(oldName);
             return true;
         }
     }
@@ -47,7 +47,7 @@ bool IniFile::renameKey(const string& oldName, const string& newName, const stri
 
 bool IniFile::editKeyValue(const string& name, const string& newValue, const string& section) {
     if (findKey(name,section)) {
-        (content[section])[name] = newValue;
+        content.at(section).at(name) = newValue;
         return true;
     }
     return false;
@@ -67,13 +67,13 @@ bool IniFile::eraseSection(const string& sectionName) {
 
 bool IniFile::eraseKey(const string& name, const string& section) {
     if (findKey(name, section)) {
-        content[section].erase(name);
+        content.at(section).erase(name);
         return true;
     }
     return false;
 }
 
-bool IniFile::findSection(const string &sectionName) {
+bool IniFile::findSection(const string &sectionName) const {
     auto itr = content.find(sectionName);
     if (itr != content.end()){
         return true;
@@ -81,10 +81,30 @@ bool IniFile::findSection(const string &sectionName) {
     return false;
 }
 
-bool IniFile::findKey(const string &name, const string &section) {
+bool IniFile::findKey(const string &name, const string &section) const {
     if (findSection(section)){
-        if (content[section].find(name) != content[section].end())
+        if (content.at(section).find(name) != content.at(section).end())
             return true;
     }
     return false;
+}
+
+string IniFile::getKeyValue(const string &name, const string &section) const {
+    if(findKey(name, section))
+        return content.at(section).at(name);
+    return nullptr;
+}
+
+vector<string>& IniFile::getKeyList(const string &sectionName) const {
+    auto *keyList = new vector <string>;
+    for (auto itr = content.at(sectionName).begin(); itr != content.at(sectionName).end(); itr++)
+        keyList->push_back(itr->first);
+    return *keyList;
+}
+
+vector<string>& IniFile::getSectionList() const {
+    auto *sectionList = new vector <string>;
+    for (auto itr = content.begin(); itr != content.end(); itr++)
+        sectionList->push_back(itr->first);
+    return *sectionList;
 }
