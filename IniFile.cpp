@@ -3,7 +3,7 @@
 
 IniFile::IniFile(string fileName) : fileName(fileName) {
     // ifstream myFile (fileName+".ini", ios_base::out);
-    newSection("");
+    newSection(nullptr);
 }
 
 bool IniFile::newSection(const string& sectionName) {
@@ -16,7 +16,7 @@ bool IniFile::newSection(const string& sectionName) {
 }
 
 bool IniFile::newKey(const string& name, const string& value, const string& section) {
-    if (!findKey(name, section)) {
+    if (!findKey(name, section) && findSection(section)) {
         content.at(section)[name] = value;
         return true;
     }
@@ -74,10 +74,8 @@ bool IniFile::eraseKey(const string& name, const string& section) {
 }
 
 bool IniFile::findSection(const string &sectionName) const {
-    auto itr = content.find(sectionName);
-    if (itr != content.end()){
+    if (content.find(sectionName) != content.end())
         return true;
-    }
     return false;
 }
 
