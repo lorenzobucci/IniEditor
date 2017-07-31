@@ -4,6 +4,7 @@
 int main() {
 
     IniFile prova;
+
     prova.newSection("Settings");
     prova.newSection("Foo");
     prova.newKey("audio","off","Settings");

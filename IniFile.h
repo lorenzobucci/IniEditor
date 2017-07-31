@@ -11,7 +11,7 @@ using namespace std;
 class IniFile {
 
 public:
-    explicit IniFile(string fileName = "default");
+    explicit IniFile();
 
     bool newSection (const string& sectionName);
     bool newKey (const string& name, const string& value, const string& section = nullptr);
@@ -30,7 +30,6 @@ public:
 
 
 private:
-    string fileName;
     map <string, map <string,string> > content;
 
     bool findSection (const string& sectionName) const;

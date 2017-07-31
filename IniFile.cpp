@@ -1,7 +1,6 @@
 #include "IniFile.h"
-#include <fstream>
 
-IniFile::IniFile(string fileName) : fileName(fileName) {
+IniFile::IniFile() : {
     // ifstream myFile (fileName+".ini", ios_base::out);
     newSection(nullptr);
 }
@@ -26,8 +25,8 @@ bool IniFile::newKey(const string& name, const string& value, const string& sect
 bool IniFile::renameSection(const string& oldName, const string& newName) {
     if (findSection(oldName)) {
         if (newSection(newName)) {
-            for (auto itr2 = content.at(oldName).begin(); itr2 != content.at(oldName).end(); itr2++)
-                newKey(itr2->first, itr2->second, newName);
+            for (const auto& key : content.at(oldName) )
+                newKey(key.first, key.second, newName);
             content.erase(oldName);
             return true;
         }
@@ -95,14 +94,14 @@ string IniFile::getKeyValue(const string &name, const string &section) const {
 
 vector<string>& IniFile::getKeyList(const string &sectionName) const {
     auto *keyList = new vector <string>;
-    for (auto itr = content.at(sectionName).begin(); itr != content.at(sectionName).end(); itr++)
-        keyList->push_back(itr->first);
+    for (const auto& key : content.at(sectionName))
+        keyList->push_back(key.first);
     return *keyList;
 }
 
 vector<string>& IniFile::getSectionList() const {
     auto *sectionList = new vector <string>;
-    for (auto itr = content.begin(); itr != content.end(); itr++)
-        sectionList->push_back(itr->first);
+    for (const auto& section : content)
+        sectionList->push_back(section.first);
     return *sectionList;
 }
