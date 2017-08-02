@@ -11,11 +11,11 @@ bool IniFile::newSection(const string &sectionName) {
         content[sectionName] = emptySectionKeys;
         return true;
     }
-    return sectionName.empty();
+    return false;
 }
 
 bool IniFile::newKey(const string &name, const string &value, const string &section) {
-    if (!findKey(name, section) && findSection(section)) {
+    if (findSection(section) && !findKey(name, section)) {
         content.at(section)[name] = value;
         return true;
     }
@@ -26,8 +26,8 @@ bool IniFile::renameSection(const string &oldName, const string &newName) {
     if (findSection(oldName) && !oldName.empty()) {
         if (newSection(newName)) {
             for (const auto &key : content.at(oldName))
-                newKey(key.first, key.second, newName);
-            content.erase(oldName);
+                moveKey(key.first,oldName,newName);
+            eraseSection(oldName);
             return true;
         }
     }
@@ -52,8 +52,26 @@ bool IniFile::editKeyValue(const string &name, const string &newValue, const str
     return false;
 }
 
-bool IniFile::deleteSection(const string &sectionName) {
-    return renameSection(sectionName, "");
+bool IniFile::moveKey(const string &name, const string &oldSection, const string &newSection) {
+    if (findKey(name,oldSection)){
+        if(!findKey(name,newSection))
+            newKey(name,content.at(oldSection).at(name),newSection);
+        else
+            editKeyValue(name, content.at(oldSection).at(name), newSection);
+        eraseKey(name, oldSection);
+        return true;
+    }
+    return false;
+}
+
+bool IniFile::deleteSection(const string &sectionName, const string& destSection) {
+    if (findSection(sectionName) && findSection(destSection)) {
+        for (const auto &key : content.at(sectionName))
+            moveKey(key.first,sectionName,destSection);
+        eraseSection(sectionName);
+        return true;
+    }
+    return false;
 }
 
 bool IniFile::eraseSection(const string &sectionName) {

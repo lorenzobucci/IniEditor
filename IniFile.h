@@ -19,8 +19,10 @@ public:
     bool renameSection (const string& oldName, const string& newName);
     bool renameKey (const string& oldName, const string& newName, const string& section = "");
     bool editKeyValue (const string& name, const string& newValue, const string& section = "");
+    bool moveKey (const string& name, const string& oldSection, const string& newSection);
 
-    bool deleteSection (const string& sectionName);
+
+    bool deleteSection (const string& sectionName, const string& destSection = "");
     bool eraseSection (const string& sectionName);
     bool eraseKey (const string& name, const string& section = "");
 
