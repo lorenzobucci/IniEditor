@@ -11,7 +11,7 @@ bool IniFile::newSection(const string &sectionName) {
         content[sectionName] = emptySectionKeys;
         return true;
     }
-    return false;
+    return sectionName.empty();
 }
 
 bool IniFile::newKey(const string &name, const string &value, const string &section) {
@@ -23,7 +23,7 @@ bool IniFile::newKey(const string &name, const string &value, const string &sect
 }
 
 bool IniFile::renameSection(const string &oldName, const string &newName) {
-    if (findSection(oldName)) {
+    if (findSection(oldName) && !oldName.empty()) {
         if (newSection(newName)) {
             for (const auto &key : content.at(oldName))
                 newKey(key.first, key.second, newName);
