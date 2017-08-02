@@ -1,4 +1,4 @@
-#include "IniFileTest.h"
+#include "IniFile.h"
 
 IniFile::IniFile() {
     // ifstream myFile (fileName+".ini", ios_base::out);
