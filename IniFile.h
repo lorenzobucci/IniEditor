@@ -22,7 +22,7 @@ public:
     bool moveKey (const string& name, const string& oldSection, const string& newSection);
 
 
-    bool deleteSection (const string& sectionName, const string& destSection = "");
+    bool deleteSection (const string& oldSection, const string& destSection = "");
     bool eraseSection (const string& sectionName);
     bool eraseKey (const string& name, const string& section = "");
 

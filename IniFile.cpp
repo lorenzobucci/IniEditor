@@ -64,18 +64,18 @@ bool IniFile::moveKey(const string &name, const string &oldSection, const string
     return false;
 }
 
-bool IniFile::deleteSection(const string &sectionName, const string& destSection) {
-    if (findSection(sectionName) && findSection(destSection)) {
-        for (const auto &key : content.at(sectionName))
-            moveKey(key.first,sectionName,destSection);
-        eraseSection(sectionName);
+bool IniFile::deleteSection(const string &oldSection, const string& destSection) {
+    if (findSection(oldSection) && findSection(destSection) && !oldSection.empty()) {
+        for (const auto &key : content.at(oldSection))
+            moveKey(key.first,oldSection,destSection);
+        eraseSection(oldSection);
         return true;
     }
     return false;
 }
 
 bool IniFile::eraseSection(const string &sectionName) {
-    if (findSection(sectionName)) {
+    if (findSection(sectionName) && !sectionName.empty()) {
         content.erase(sectionName);
         return true;
     }
