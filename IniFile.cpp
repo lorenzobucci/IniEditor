@@ -1,8 +1,22 @@
+#include <cstdlib>
 #include "IniFile.h"
 
-IniFile::IniFile() {
-    // ifstream myFile (fileName+".ini", ios_base::out);
+IniFile::IniFile(const string& fileName, const string& folder) {
     newSection("");
+    file.open(folder+"\\"+fileName,fstream::out);
+    if(!file.is_open())
+        exit(2);
+}
+
+IniFile::IniFile(const string& filePath) {
+    newSection("");
+    file.open(filePath);
+    if(!file.is_open())
+        exit(2);
+}
+
+IniFile::~IniFile() {
+    file.close();
 }
 
 bool IniFile::newSection(const string &sectionName) {
@@ -124,4 +138,23 @@ vector<string> &IniFile::getSectionList() const {
     for (const auto &section : content)
         sectionList->push_back(section.first);
     return *sectionList;
+}
+
+void IniFile::save() {
+
+    if(!content.at("").empty()) {
+        for (const auto &key : content.at(""))
+            file << key.first << "=" << key.second << "\r\n";
+        file << "\r\n";
+    }
+
+    for (const auto& section : content){
+        if (!section.first.empty()) {
+            file << "[" << section.first << "]" << "\r\n";
+            for (const auto &key : content.at(section.first))
+                file << key.first << "=" << key.second << "\r\n";
+            file << "\r\n";
+        }
+    }
+
 }
