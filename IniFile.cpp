@@ -3,16 +3,29 @@
 
 IniFile::IniFile(const string& fileName, const string& folder) {
     newSection("");
-    file.open(folder+"\\"+fileName,fstream::out);
-    if(!file.is_open())
-        exit(2);
+
+    filePath = folder+"\\"+fileName;
+
 }
 
-IniFile::IniFile(const string& filePath) {
+IniFile::IniFile(const string& filePath) : filePath(filePath) {
     newSection("");
-    file.open(filePath);
+
+    file.open(filePath,fstream::in);
     if(!file.is_open())
         exit(2);
+
+    //FIXME implementare codice per importare il contenuto di un file già esistente
+
+    /* int c = 13;
+    while (c == 13 || c == 10)
+        c == file.get();
+    if(c == 123) {
+        string section;
+        file.getline(section,2,"]");
+        newSection(section);
+    }*/
+    file.close();
 }
 
 IniFile::~IniFile() {
@@ -141,6 +154,10 @@ vector<string> &IniFile::getSectionList() const {
 }
 
 void IniFile::save() {
+
+    file.open(filePath,fstream::out);
+    if(!file.is_open())
+        exit(2);
 
     if(!content.at("").empty()) {
         for (const auto &key : content.at(""))

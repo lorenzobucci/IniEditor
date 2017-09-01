@@ -43,6 +43,7 @@ private:
     bool findKey (const string& name, const string& section = "") const;
 
     fstream file;
+    string filePath;
 
 };
 
