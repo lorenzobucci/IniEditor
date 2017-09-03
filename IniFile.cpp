@@ -5,6 +5,11 @@ IniFile::IniFile(const string& fileName, const string& folder) {
     newSection("");
 
     filePath = folder+"\\"+fileName;
+    file.open(filePath,fstream::out);
+    if(!file.is_open())
+        exit(2);
+    file.close();
+    file.open(filePath);
 
 }
 
@@ -25,7 +30,6 @@ IniFile::IniFile(const string& filePath) : filePath(filePath) {
         file.getline(section,2,"]");
         newSection(section);
     }*/
-    file.close();
 }
 
 IniFile::~IniFile() {
@@ -155,6 +159,7 @@ vector<string> &IniFile::getSectionList() const {
 
 void IniFile::save() {
 
+    file.close();
     file.open(filePath,fstream::out);
     if(!file.is_open())
         exit(2);
