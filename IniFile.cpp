@@ -1,35 +1,44 @@
 #include <cstdlib>
+#include <cstring>
 #include "IniFile.h"
 
-IniFile::IniFile(const string& fileName, const string& folder) {
+IniFile::IniFile(const string &fileName, const string &folder) {
     newSection("");
 
-    filePath = folder+"\\"+fileName;
-    file.open(filePath,fstream::out);
-    if(!file.is_open())
+    filePath = folder + "\\" + fileName;
+    file.open(filePath, fstream::out);
+    if (!file.is_open())
         exit(2);
     file.close();
     file.open(filePath);
 
 }
 
-IniFile::IniFile(const string& filePath) : filePath(filePath) {
+IniFile::IniFile(const string &filePath) : filePath(filePath) {
     newSection("");
 
-    file.open(filePath,fstream::in);
-    if(!file.is_open())
+    file.open(filePath, fstream::in);
+    if (!file.is_open())
         exit(2);
 
-    //FIXME implementare codice per importare il contenuto di un file già esistente
+    string lastSection = "";
+    for (int line = 1; !file.eof(); line++) {
+        string lineStr;
+        getline(file, lineStr);
+        char *cLineStr = &lineStr[0u];
 
-    /* int c = 13;
-    while (c == 13 || c == 10)
-        c == file.get();
-    if(c == 123) {
-        string section;
-        file.getline(section,2,"]");
-        newSection(section);
-    }*/
+        if (strtok(cLineStr, "[]")!=nullptr) {
+            char *cstr = strtok(cLineStr, "[]");
+            newSection(cstr);
+            lastSection = cstr;
+        }
+
+        else if (strtok(cLineStr, "=")!=nullptr) {
+            char *ckey = strtok(cLineStr, "=");
+            char *cvalue = strtok(nullptr, "=");
+            newKey(ckey,cvalue,lastSection);
+        }
+    }
 }
 
 IniFile::~IniFile() {
@@ -57,7 +66,7 @@ bool IniFile::renameSection(const string &oldName, const string &newName) {
     if (findSection(oldName) && !oldName.empty()) {
         if (newSection(newName)) {
             for (const auto &key : content.at(oldName))
-                moveKey(key.first,oldName,newName);
+                moveKey(key.first, oldName, newName);
             eraseSection(oldName);
             return true;
         }
@@ -84,9 +93,9 @@ bool IniFile::editKeyValue(const string &name, const string &newValue, const str
 }
 
 bool IniFile::moveKey(const string &name, const string &oldSection, const string &newSection) {
-    if (findKey(name,oldSection)){
-        if(!findKey(name,newSection))
-            newKey(name,content.at(oldSection).at(name),newSection);
+    if (findKey(name, oldSection)) {
+        if (!findKey(name, newSection))
+            newKey(name, content.at(oldSection).at(name), newSection);
         else
             editKeyValue(name, content.at(oldSection).at(name), newSection);
         eraseKey(name, oldSection);
@@ -95,10 +104,10 @@ bool IniFile::moveKey(const string &name, const string &oldSection, const string
     return false;
 }
 
-bool IniFile::deleteSection(const string &oldSection, const string& destSection) {
+bool IniFile::deleteSection(const string &oldSection, const string &destSection) {
     if (findSection(oldSection) && findSection(destSection) && !oldSection.empty()) {
         for (const auto &key : content.at(oldSection))
-            moveKey(key.first,oldSection,destSection);
+            moveKey(key.first, oldSection, destSection);
         eraseSection(oldSection);
         return true;
     }
@@ -160,17 +169,17 @@ vector<string> &IniFile::getSectionList() const {
 void IniFile::save() {
 
     file.close();
-    file.open(filePath,fstream::out);
-    if(!file.is_open())
+    file.open(filePath, fstream::out);
+    if (!file.is_open())
         exit(2);
 
-    if(!content.at("").empty()) {
+    if (!content.at("").empty()) {
         for (const auto &key : content.at(""))
             file << key.first << "=" << key.second << "\r\n";
         file << "\r\n";
     }
 
-    for (const auto& section : content){
+    for (const auto &section : content) {
         if (!section.first.empty()) {
             file << "[" << section.first << "]" << "\r\n";
             for (const auto &key : content.at(section.first))
