@@ -12,7 +12,7 @@ using namespace std;
 class IniFile {
 
 public:
-    explicit IniFile(const string& fileName, const string& folder = "");
+    explicit IniFile(const string& fileName, const string& folder);
     explicit IniFile(const string& filePath);
 
     virtual ~IniFile();

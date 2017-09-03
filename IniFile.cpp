@@ -27,16 +27,14 @@ IniFile::IniFile(const string &filePath) : filePath(filePath) {
         getline(file, lineStr);
         char *cLineStr = &lineStr[0u];
 
-        if (strtok(cLineStr, "[]")!=nullptr) {
+        if (strchr(cLineStr, 91) != nullptr) {
             char *cstr = strtok(cLineStr, "[]");
             newSection(cstr);
             lastSection = cstr;
-        }
-
-        else if (strtok(cLineStr, "=")!=nullptr) {
+        } else if (strchr(cLineStr, 61) != nullptr) {
             char *ckey = strtok(cLineStr, "=");
             char *cvalue = strtok(nullptr, "=");
-            newKey(ckey,cvalue,lastSection);
+            newKey(ckey, cvalue, lastSection);
         }
     }
 }
