@@ -3,13 +3,11 @@
 
 
 int main() {
-    IniFile example("rdpwrp.ini","C:\\Users\\Lorenzo\\Desktop");
+    IniFile example("C:\\Users\\Lorenzo\\Desktop\\rdpwrap.ini");
     example.newSection("Settings");
-    example.newSection("Foo");
-    example.newKey("a","off");
-    example.newKey("audio","off","Settings");
-    example.newKey("video","on","Settings");
-    example.newKey("audio2","on","Settings");
+    example.newKey("audio", "off", "Settings");
+    example.newKey("video", "on", "Settings");
+    example.newKey("audio2", "on", "Setting");
     example.save();
     return 0;
 

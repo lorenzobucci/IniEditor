@@ -9,9 +9,6 @@ IniFile::IniFile(const string &fileName, const string &folder) {
     file.open(filePath, fstream::out);
     if (!file.is_open())
         exit(2);
-    file.close();
-    file.open(filePath);
-
 }
 
 IniFile::IniFile(const string &filePath) : filePath(filePath) {
