@@ -15,7 +15,7 @@ IniFile::IniFile(const string &fileName, const string &folder, bool newFile) {
         if (!file.is_open())
             exit(2);
 
-        string lastSection = "";
+        string lastSection;
         for (int line = 1; !file.eof(); line++) {
             string lineStr;
             getline(file, lineStr);
@@ -58,8 +58,8 @@ bool IniFile::newKey(const string &name, const string &value, const string &sect
 bool IniFile::renameSection(const string &oldName, const string &newName) {
     if (findSection(oldName) && !oldName.empty()) {
         if (newSection(newName)) {
-            for (auto itr2 = content.at(oldName).begin(); itr2 != content.at(oldName).end(); itr2++)
-                newKey(itr2->first, itr2->second, newName);
+            for (const auto &key : content.at(oldName))
+                moveKey(key.first,oldName,newName);
             eraseSection(oldName);
             return true;
         }
